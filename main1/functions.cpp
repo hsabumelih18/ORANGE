@@ -74,7 +74,7 @@ int menus(int menu, int* choices)
 	}
 	try
 	{
-		choice = readInt();
+		choice = testInt();
 
 	}
 	catch (...)
