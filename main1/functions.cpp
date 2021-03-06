@@ -8,7 +8,7 @@ using namespace std;
 vector <vector <string>> MENU_ITEMS
 {
 	{
-		{ "1. Add elements" },
+		{ "1. Add elements",  },
 		{ "2. Edit elements" },
 		{ "3. Delete elements" },
 		{ "4. Write elements in a .txt file" },
@@ -37,6 +37,17 @@ vector <vector <string>> MENU_ITEMS
 	}
 };
 
+int testInt()
+{
+	int choice;
+	while (!(cin >> choice))
+	{
+		cin.clear();
+		cin.ignore(INT_MAX, '\n');
+		cout << "Incorrect value! Try entering a whole number!" << endl;
+	}
+	return choice;
+}
 int menus(int menu, int* choices)
 {
 	int choice;
@@ -44,13 +55,13 @@ int menus(int menu, int* choices)
 	{
 		for (size_t i = 0; i < MENU_ITEMS[menu].size(); i++)
 		{
-			if (menu == 0 || menu == 3) { cout << MENU_ITEMS[menu][i] << endl; }
-			if (menu == 1)
-			{
+			if (menu == 0 || menu == 3) { 
+				cout << MENU_ITEMS[menu][i] << endl; 
+			}
+			if (menu == 1){
 				if (i != 3 || choices[0] == 4) { cout << MENU_ITEMS[menu][i] << endl; }
 			}
-			if (menu == 2)
-			{
+			if (menu == 2){
 				if (choices[1] == 2 || (i != 3 && i != 4)) { cout << MENU_ITEMS[menu][i] << endl; }
 			}
 		}
@@ -63,7 +74,8 @@ int menus(int menu, int* choices)
 	}
 	try
 	{
-		cin >> choice;
+		choice = readInt();
+
 	}
 	catch (...)
 	{
@@ -80,7 +92,7 @@ void addElement(SCHOOL_DATA& schoolData, int* choices)
 	switch (choices[1])
 	{
 	case 0: schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); break;
-	case 1: schoolData.students.push_back({ "name", "surname", 0, noRole, "email" }); break;
+	case 1: schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); break;
 	case 2: schoolData.teams.push_back({ "name", "description", "set up date"}); break;
 	default: cout << "Invalid Input" << endl; break;
 	}
