@@ -5,59 +5,6 @@
 #include "functions.h"
 using namespace std;
 
-enum ROLE
-{
-	noRole,
-	sTrainer,
-	qaEngineer,
-	backEnd,
-	frontEnd
-};
-
-enum TEAM_STATUS
-{
-	inUse,
-	notActive,
-	archived,
-};
-
-struct STUDENT_DATA
-{
-	string name = "name";
-	string surname = "surname";
-	int klas = 0;
-	ROLE role = noRole;
-	string email = "email";
-};
-
-struct TEACHER_DATA
-{
-	string name = "name";
-	string surname = "surname";
-	vector <string> teams = { "No teams yet." };
-	string email = "email";
-};
-
-struct TEAM_DATA
-{
-	string name = "name";
-	string description = "description";
-	string setUpDate = "set up date";
-	vector <STUDENT_DATA> students;
-	TEAM_STATUS status = inUse;
-	TEACHER_DATA teacher;
-};
-
-struct SCHOOL_DATA
-{
-	string name = "name";
-	string city = "city";
-	string address = "address";
-	vector <TEACHER_DATA> teachers;
-	vector <TEAM_DATA> teams;
-	vector <STUDENT_DATA> students;
-};
-
 vector <vector <string>> MENU_ITEMS
 {
 	{
@@ -97,14 +44,14 @@ int menus(int menu, int* choices)
 	{
 		for (size_t i = 0; i < MENU_ITEMS[menu].size(); i++)
 		{
-			if (menu == 0 | menu == 3) { cout << MENU_ITEMS[menu][i] << endl; }
+			if (menu == 0 || menu == 3) { cout << MENU_ITEMS[menu][i] << endl; }
 			if (menu == 1)
 			{
-				if (i != 4 | choices[0] == 4) { cout << MENU_ITEMS[menu][i] << endl; }
+				if (i != 3 || choices[0] == 4) { cout << MENU_ITEMS[menu][i] << endl; }
 			}
 			if (menu == 2)
 			{
-				if (choices[1] == 2 | (i != 3 && i != 4)) { cout << MENU_ITEMS[menu][i] << endl; }
+				if (choices[1] == 2 || (i != 3 && i != 4)) { cout << MENU_ITEMS[menu][i] << endl; }
 			}
 		}
 	}

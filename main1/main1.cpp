@@ -5,59 +5,6 @@
 #include "functions.h"
 using namespace std;
 
-enum ROLE
-{
-	noRole,
-	sTrainer,
-	qaEngineer,
-	backEnd,
-	frontEnd
-};
-
-enum TEAM_STATUS
-{
-	inUse,
-	notActive,
-	archived,
-};
-
-struct STUDENT_DATA
-{
-	string name = "name";
-	string surname = "surname";
-	int klas = 0;
-	ROLE role = noRole;
-	string email = "email";
-};
-
-struct TEACHER_DATA
-{
-	string name = "name";
-	string surname = "surname";
-	vector <string> teams = { "No teams yet." };
-	string email = "email";
-};
-
-struct TEAM_DATA
-{
-	string name = "name";
-	string description = "description";
-	string setUpDate = "set up date";
-	vector <STUDENT_DATA> students;
-	TEAM_STATUS status = inUse;
-	TEACHER_DATA teacher;
-};
-
-struct SCHOOL_DATA
-{
-	string name = "name";
-	string city = "city";
-	string address = "address";
-	vector <TEACHER_DATA> teachers;
-	vector <TEAM_DATA> teams;
-	vector <STUDENT_DATA> students;
-};
-
 int main()
 {
 	SCHOOL_DATA schoolData;
@@ -72,7 +19,7 @@ int main()
 			{
 			case 0:
 			{
-
+				addElement(schoolData, choices);
 			}
 			case 1:
 			{
@@ -90,5 +37,3 @@ int main()
 //file writing thing (can someone else do it pls)
 //front end (not my job lol)
 //making sure shit doesn't break (oh boy)
-
-//Scratch all that, I give up
