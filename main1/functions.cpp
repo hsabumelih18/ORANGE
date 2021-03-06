@@ -8,7 +8,7 @@ using namespace std;
 vector <vector <string>> MENU_ITEMS
 {
 	{
-		{ "1. Add elements",  },
+		{ "1. Add elements" },
 		{ "2. Edit elements" },
 		{ "3. Delete elements" },
 		{ "4. Write elements in a .txt file" },
@@ -73,18 +73,7 @@ int menus(int menu, int* choices)
 		cout << "Invalid input" << endl;
 		return -1;
 	}
-	try
-	{
-		choice = testInt();
-
-	}
-	catch (...)
-	{
-		system("CLS");
-		cout << "Wrong data type input" << endl;
-		return -1;
-	}
-
+	choice = testInt();
 	return choice;
 }
 
