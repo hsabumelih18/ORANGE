@@ -97,3 +97,17 @@ void addElement(SCHOOL_DATA& schoolData, int* choices)
 	default: cout << "Invalid Input" << endl; break;
 	}
 }
+void createFile()
+{
+	ofstream MyWriteFile("file.txt");
+}
+void showFileContents()
+{
+	string fileContents;
+	ifstream MyReadFile("filename.txt");
+	while (getline(MyReadFile, fileContents)) {
+		
+		cout << fileContents;
+	}
+
+}
