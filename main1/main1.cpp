@@ -12,22 +12,48 @@ int main()
 	do
 	{
 		choices[0] = menus(0, choices);
-		do
+		if (choices[0] != 0)
 		{
-			choices[1] = menus(1, choices);
-			switch (choices[0])
+			while (choices[1] != 0)
 			{
-			case 0:
-			{
-				addElement(schoolData, choices);
+				choices[1] = menus(1, choices);
+				if (choices[1] != 0)
+				{
+					switch (choices[0])
+					{
+					case 1:
+					{
+						addElement(schoolData, choices);
+						cout << "Successfully added new element!" << endl;
+						break;
+					}
+					case 2:
+					{
+						if (choices[1] < 3) { choices[2] = menus(2, choices); }
+						else { choices[2] = menus(3, choices); }
+						break;
+					}
+					case 3:
+					{
+						//edit stuff
+					}
+					case 4:
+					{
+						//write into file
+					}
+					case 5:
+					{
+						//our team's credits
+					}
+					default:
+					{
+						cout << "Invalid input" << endl;
+					}
+					}
+				}
 			}
-			case 1:
-			{
-				if (choices[1] < 3) { choices[2] = menus(2, choices); }
-				else { choices[2] = menus(3, choices); }
-			}
-			}
-		} while (choices[1] != 0);
+			choices[1] = -1;
+		}
 	} while (choices[0] != 0);
 }
 

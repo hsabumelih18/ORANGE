@@ -12,6 +12,7 @@ vector <vector <string>> MENU_ITEMS
 		{ "2. Edit elements" },
 		{ "3. Delete elements" },
 		{ "4. Write elements in a .txt file" },
+		{ "5. Credits"},
 		{ "0. Exit program" }
 	},
 	{
@@ -80,7 +81,7 @@ void addElement(SCHOOL_DATA& schoolData, int* choices)
 	switch (choices[1])
 	{
 	case 0: schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); break;
-	case 1: schoolData.students.push_back({ "name", "surname", 0, noRole, "email" }); break;
+	case 1: schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); break;
 	case 2: schoolData.teams.push_back({ "name", "description", "set up date"}); break;
 	default: cout << "Invalid Input" << endl; break;
 	}
