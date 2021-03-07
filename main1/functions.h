@@ -59,8 +59,11 @@ struct SCHOOL_DATA
 	vector <TEAM_DATA> teams;
 	vector <STUDENT_DATA> students;
 };
+
 string getTime();
 int testInt();
 int menus(int menu, int* choices);
 void credits();
 void addElement(SCHOOL_DATA& schoolData, int* choices);
+void editTeams(SCHOOL_DATA& schoolData);
+void deleteElement(SCHOOL_DATA& schoolData, int* choices);

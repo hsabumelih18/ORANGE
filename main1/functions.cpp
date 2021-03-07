@@ -51,6 +51,7 @@ int testInt()
 	}
 	return choice;
 }
+
 int menus(int menu, int* choices)
 {
 	int choice;
@@ -79,23 +80,15 @@ int menus(int menu, int* choices)
 	return choice;
 }
 
-void addElement(SCHOOL_DATA& schoolData, int* choices)
-{
-	switch (choices[1])
-	{
-	case 0: schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); break;
-	case 1: schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); break;
-	case 2: schoolData.teams.push_back({ "name", "description", "set up date"}); break;
-	default: cout << "Invalid Input" << endl; break;
-	}
-}
 bool checkInUse(TEAM_STATUS status)
 {
 	if (status == inUse)
 	{
 		return true;
 	}
+	return false;
 }
+
 void showElements(SCHOOL_DATA& schoolData)
 {
 	cout << getTime();
@@ -106,22 +99,131 @@ void showElements(SCHOOL_DATA& schoolData)
 			cout << "File: " << schoolData.teams[i].name;
 		}
 		else continue;
-		cout << "Team's description: "<<schoolData.teams[i].description << endl;
+		cout << "Team's description: " << schoolData.teams[i].description << endl;
 		cout << "This team was set up at: " << schoolData.teams[i].setUpDate << endl;
-		cout <<"The teacher in this team is:"<< endl;
-		cout << schoolData.teams[i].teacher.name<<endl;
+		cout << "The teacher in this team is:" << endl;
+		cout << schoolData.teams[i].teacher.name << endl;
 		cout << "Students in this team are:" << endl;
-		for (int j = 0; j < schoolData.teams[i].students.size();j++)
+		for (int j = 0; j < schoolData.teams[i].students.size(); j++)
 		{
-			cout << j << ". " << schoolData.teams[i].students[j].name<<endl;
+			cout << j << ". " << schoolData.teams[i].students[j].name << endl;
 		}
 	}
-
 }
+
+void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
+{
+	for (size_t i = 0; i < schoolData.teams.size(); i++)
+	{
+		if (i == usedTeamIndex)
+		{
+			schoolData.teams[i].status = inUse;
+		}
+	}
+}
+
+void addElement(SCHOOL_DATA& schoolData, int* choices)
+{
+	switch (choices[1])
+	{
+	case 1: schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); break;
+	case 2: schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); break;
+	case 3: 
+	{
+		schoolData.teams.push_back({ "name", "description", "set up date" }); break;
+		teamStatusSwitch(schoolData, schoolData.teams.size());
+	}
+	default: cout << "Invalid Input" << endl; break;
+	}
+}
+
+void editTeams(SCHOOL_DATA& schoolData)
+{
+	size_t choiceTeam;
+	size_t choiceElement;
+	cout << "Choose a team to edit (0 to go back)" << endl;
+	for (size_t i = 0; i < schoolData.teams.size(); i++)
+	{
+		cout << i + 1 << ". " << schoolData.teams[i].name << endl;
+	}
+	try
+	{
+		cin >> choiceTeam;
+		if (choiceTeam > schoolData.teams.size()) {
+			cout << "Invalid team index" << endl;
+		}
+		else {
+			showElements(schoolData);
+			cin >> choiceElement;
+			switch (choiceElement)
+			{
+			case 1: cin >> schoolData.teams[choiceTeam - 1].name; break;
+			case 2: cin >> schoolData.teams[choiceTeam - 1].description; break;
+			case 3: cin >> schoolData.teams[choiceTeam - 1].setUpDate; break;
+			case 4: cin >> schoolData.teams[choiceTeam - 1].teacher.name; break;
+			case 0: break;
+			default: cout << "Invalid option" << endl;
+			}
+			cout << "Team data successfully changed!" << endl;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+}
+
+void deleteElement(SCHOOL_DATA& schoolData, int* choices)
+{
+	int choice;
+	try
+	{
+		cout << "Choose index to erase: " << endl;
+		cin >> choice;
+		switch (choices[1])
+		{
+		case 1: 
+		{
+			vector<TEACHER_DATA>::iterator it = schoolData.teachers.begin() + choice;
+			if (it <= schoolData.teachers.end())
+			{
+				schoolData.teachers.erase(it);
+			}
+			break;
+		}
+		case 2: 
+		{
+			vector<STUDENT_DATA>::iterator it = schoolData.students.begin() + choice;
+			if (it <= schoolData.students.end())
+			{
+				schoolData.students.erase(it);
+			}
+			break;
+		}
+		case 3:
+		{
+			vector<TEAM_DATA>::iterator it = schoolData.teams.begin() + choice;
+			if (it <= schoolData.teams.end())
+			{
+				schoolData.teams.erase(it);
+			}
+			break;
+		}
+		case 0: break;
+		default: cout << "Invalid choice" << endl;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+}
+
 void enterInfoInFiles(SCHOOL_DATA& schoolData)
 {
 
 }
+
 void createFiles(SCHOOL_DATA& schoolData)
 {
 	for (int i = 0; i < schoolData.teams.size();i++)
@@ -134,6 +236,7 @@ void createFiles(SCHOOL_DATA& schoolData)
 		else continue;
 	}
 }
+
 void showFileContents()
 {
 	string fileContents;
@@ -144,6 +247,7 @@ void showFileContents()
 	}
 
 }
+
 string getTime()
 {
 	string info;
@@ -152,6 +256,7 @@ string getTime()
 	info = "The last update was made at: " + dt;
 	return info;
 }
+
 void credits()
 {
 	cout << endl;

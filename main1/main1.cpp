@@ -13,7 +13,7 @@ int main()
 	do
 	{
 		choices[0] = menus(0, choices);
-		if (choices[0] != 0)
+		if (choices[0] != 0 and choices[0] != 5)
 		{
 			while (choices[1] != 0)
 			{
@@ -36,15 +36,13 @@ int main()
 					}
 					case 3:
 					{
-						//edit stuff
+						deleteElement(schoolData, choices);
+						cout << "Successfully deleted element!" << endl;
+						break;
 					}
 					case 4:
 					{
 						//write into file
-					}
-					case 5:
-					{
-						credits();
 					}
 					default:
 					{
@@ -54,6 +52,10 @@ int main()
 				}
 			}
 			choices[1] = -1;
+		}
+		else
+		{
+			credits();
 		}
 	} while (choices[0] != 0);
 }
