@@ -89,18 +89,49 @@ void addElement(SCHOOL_DATA& schoolData, int* choices)
 	default: cout << "Invalid Input" << endl; break;
 	}
 }
+bool checkInUse(TEAM_STATUS status)
+{
+	if (status == inUse)
+	{
+		return true;
+	}
+}
+void showElements(SCHOOL_DATA& schoolData)
+{
+	cout << getTime();
+	for (int i = 0; i < schoolData.teams.size(); i++)
+	{
+		if (checkInUse(schoolData.teams[i].status))
+		{
+			cout << "File: " << schoolData.teams[i].name;
+		}
+		else continue;
+		cout << "Team's description: "<<schoolData.teams[i].description << endl;
+		cout << "This team was set up at: " << schoolData.teams[i].setUpDate << endl;
+		cout <<"The teacher in this team is:"<< endl;
+		cout << schoolData.teams[i].teacher.name<<endl;
+		cout << "Students in this team are:" << endl;
+		for (int j = 0; j < schoolData.teams[i].students.size();j++)
+		{
+			cout << j << ". " << schoolData.teams[i].students[j].name<<endl;
+		}
+	}
+
+}
+void enterInfoInFiles(SCHOOL_DATA& schoolData)
+{
+
+}
 void createFiles(SCHOOL_DATA& schoolData)
 {
 	for (int i = 0; i < schoolData.teams.size();i++)
 	{
-		if (schoolData.teams[i].status == inUse)
+		if (checkInUse(schoolData.teams[i].status))
 		{
 			string name = schoolData.teams[i].name;
 			ofstream MyWriteFile(name + ".txt");
 		}
 		else continue;
-		
-
 	}
 }
 void showFileContents()
