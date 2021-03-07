@@ -1,9 +1,10 @@
 #pragma once
-
+#pragma warning(disable:4996)
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <ctime>
 using namespace std;
 
 enum ROLE
@@ -60,5 +61,5 @@ struct SCHOOL_DATA
 };
 
 int menus(int menu, int* choices);
-
+void credits();
 void addElement(SCHOOL_DATA& schoolData, int* choices);

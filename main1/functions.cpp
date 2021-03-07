@@ -1,8 +1,10 @@
+#pragma warning(disable:4996)
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include "functions.h"
+#include <ctime>
 using namespace std;
 
 vector <vector <string>> MENU_ITEMS
@@ -87,9 +89,19 @@ void addElement(SCHOOL_DATA& schoolData, int* choices)
 	default: cout << "Invalid Input" << endl; break;
 	}
 }
-void createFile()
+void createFiles(SCHOOL_DATA& schoolData)
 {
-	ofstream MyWriteFile("file.txt");
+	for (int i = 0; i < schoolData.teams.size();i++)
+	{
+		if (schoolData.teams[i].status == inUse)
+		{
+			string name = schoolData.teams[i].name;
+			ofstream MyWriteFile(name + ".txt");
+		}
+		else continue;
+		
+
+	}
 }
 void showFileContents()
 {
@@ -100,4 +112,21 @@ void showFileContents()
 		cout << fileContents;
 	}
 
+}
+string getTime()
+{
+	string info;
+	time_t now = time(0);
+	string dt = ctime(&now);
+	info = "The last update was made at: " + dt;
+	return info;
+}
+void credits()
+{
+	cout << endl;
+	cout << "Scrum Trainer:          Hussein Abumelih\n" << endl;
+	cout << "C++ Developer:	         Teodor Angelov\n" << endl;
+	cout << "Front End Developer:    Stephan Stratev\n" << endl;
+	cout << "QA Engineer:            Alexander Yanev\n" << endl;
+	cout << endl;
 }

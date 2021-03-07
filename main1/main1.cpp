@@ -1,10 +1,11 @@
+#pragma warning(disable:4996)
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
 #include "functions.h"
+#include <ctime>
 using namespace std;
-
 int main()
 {
 	SCHOOL_DATA schoolData;
@@ -43,7 +44,7 @@ int main()
 					}
 					case 5:
 					{
-						//our team's credits
+						credits();
 					}
 					default:
 					{
