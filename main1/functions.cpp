@@ -218,22 +218,74 @@ void deleteElement(SCHOOL_DATA& schoolData, int* choices)
 		cout << "Error: Incorrect data input" << endl;
 	}
 }
+bool checkFile(string fileName)
+{
+	ifstream file;
 
+	file.open(fileName, ios::in | ios::_Nocreate);
+
+	if (file.is_open())
+	{
+		file.close();
+		return true;
+	}
+	return false;
+
+
+}
+bool createFile(string fileName)
+{
+	ofstream file;
+
+	file.open(fileName, ios::out | ios::trunc);
+
+	if (file.is_open())
+	{
+		file.close();
+		return true;
+	}
+	return false;
+}
+bool deleteFile(std::string fileName)
+{
+	// 0 means success
+	// != 0 means failure
+	int result = remove(fileName.c_str());
+
+	if (result != 0)
+	{
+		return errno;
+	}
+	return 0;
+}
+int renameFile(std::string oldFileName, std::string newFileName)
+{
+	// 0 means success
+	// != 0 means failure
+	int result = rename(oldFileName.c_str(), newFileName.c_str());
+
+	if (result != 0)
+	{
+		return errno;
+	}
+
+	return 0;
+}
 void enterInfoInFiles(SCHOOL_DATA& schoolData)
 {
 
 }
 
-void createFiles(SCHOOL_DATA& schoolData)
+void fcreateFile(string fileName)
 {
-	for (int i = 0; i < schoolData.teams.size();i++)
+	if (checkFile(fileName) == 0)
 	{
-		if (checkInUse(schoolData.teams[i].status))
-		{
-			string name = schoolData.teams[i].name;
-			ofstream MyWriteFile(name + ".txt");
-		}
-		else continue;
+		createFile(fileName);
+	}
+	else cout << "The file you are trying to create already exists!";
+	if (checkFile(fileName)==0)
+	{
+		cout << "Hmmm... there is something wrong!";
 	}
 }
 
