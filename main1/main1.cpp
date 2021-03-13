@@ -9,6 +9,16 @@ using namespace std;
 int main()
 {
 	SCHOOL_DATA schoolData;
+	string fileName;
+	bool loopUntilOne = 0;
+	do
+	{
+		loopUntilOne = inputFileNames();
+		if (loopUntilOne) { cout << "Successfully created all files" << endl; }
+		else { cout << "Some error occured while creating the files" << endl; }
+	} while (!loopUntilOne);
+
+
 	int choices[3] = { -1, -1, -1 };
 	do
 	{
@@ -24,8 +34,8 @@ int main()
 					{
 					case 1:
 					{
-						addElement(schoolData, choices);
-						cout << "Successfully added new element!" << endl;
+						if (addElement(schoolData, choices)) { cout << "Successfully added new element!" << endl; }
+						else { cout << "No element has been added." << endl; }
 						break;
 					}
 					case 2:
@@ -36,13 +46,16 @@ int main()
 					}
 					case 3:
 					{
-						deleteElement(schoolData, choices);
-						cout << "Successfully deleted element!" << endl;
+						if (deleteElement(schoolData, choices)) { cout << "Successfully deleted element!" << endl; }
+						else { cout << "No element has been deleted." << endl; }
 						break;
 					}
 					case 4:
 					{
-						//write into file
+						cout << "Choose file name (It'll create another file if it needs to) " << endl;
+						cin >> fileName;
+						if (writeInFile(fileName, schoolData, choices)) { cout << "Successfully written in file!" << endl; }
+						else { cout << "Nothing was written in a file." << endl; }
 					}
 					default:
 					{

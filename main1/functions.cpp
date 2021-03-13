@@ -93,7 +93,7 @@ void showAllTeamsElements(SCHOOL_DATA& schoolData)
 {
 	TEAM_DATA team;
 	cout << getTime();
-	for (int i = 0; i < schoolData.teams.size(); i++)
+	for (size_t i = 0; i < schoolData.teams.size(); i++)
 	{
 		team = schoolData.teams[i];
 		if (checkInUse(team.status))
@@ -106,13 +106,14 @@ void showAllTeamsElements(SCHOOL_DATA& schoolData)
 		cout << "The teacher in this team is:" << endl;
 		cout << team.teacher.name << endl;
 		cout << "Students in this team are:" << endl;
-		for (int j = 0; j < team.students.size(); j++)
+		for (size_t j = 0; j < team.students.size(); j++)
 		{
 			cout << j << ". " << team.students[j].name << endl;
 		}
 		cout << "---------------------------------------------------------------";
 	}
 }
+
 string roleToString(ROLE role)
 {
 	switch (role)
@@ -131,6 +132,7 @@ string roleToString(ROLE role)
 		return "ERROR";
 	}
 }
+
 string statusToString(TEAM_STATUS status)
 {
 	switch (status)
@@ -141,30 +143,34 @@ string statusToString(TEAM_STATUS status)
 		return "NOT ACTIVE";
 	case archived:
 		return "ARCHIVED";
+	default:
+		return "ERROR";
 	}
 }
+
 void showAllStudentElements(SCHOOL_DATA& schoolData)
 {
 	STUDENT_DATA student;
 	cout << getTime();
-	for (int i = 0; i < schoolData.students.size(); i++)
+	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
 		cout << i << ". " << student.name << student.surname <<" class" << student.klas << endl;
 		cout << "                " << student.email << "Role: " << roleToString(student.role);
 	}
 }
+
 void showAllTeacherElements(SCHOOL_DATA& schoolData)
 {
 	TEACHER_DATA teacher;
 	cout << getTime();
-	for (int i = 0; i < schoolData.teachers.size(); i++)
+	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
 		cout << i << ". " << teacher.name << teacher.surname<<endl;
 		cout << "                " << teacher.email <<endl;
 		cout << "Teams:"<<endl;
-		for (int j = 0; j < teacher.teams.size(); j++)
+		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
 			cout << "  " << j <<". "<< teacher.teams[j];
 		}
@@ -183,18 +189,31 @@ void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
 	}
 }
 
-void addElement(SCHOOL_DATA& schoolData, int* choices)
+bool addElement(SCHOOL_DATA& schoolData, int* choices)
 {
 	switch (choices[1])
 	{
-	case 1: schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); break;
-	case 2: schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); break;
+	case 1: 
+	{
+		schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); 
+		return 1;
+	}
+	case 2: 
+	{
+		schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); 
+		return 1; 
+	}
 	case 3: 
 	{
-		schoolData.teams.push_back({ "name", "description", "set up date" }); break;
+		schoolData.teams.push_back({ "name", "description", "set up date" }); 
 		teamStatusSwitch(schoolData, schoolData.teams.size());
+		return 1;
 	}
-	default: cout << "Invalid Input" << endl; break;
+	default:
+	{
+		cout << "Invalid Input" << endl;
+		return 0;
+	}
 	}
 }
 
@@ -234,7 +253,7 @@ void editTeams(SCHOOL_DATA& schoolData)
 	}
 }
 
-void deleteElement(SCHOOL_DATA& schoolData, int* choices)
+bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 {
 	int choice;
 	try
@@ -245,40 +264,46 @@ void deleteElement(SCHOOL_DATA& schoolData, int* choices)
 		{
 		case 1: 
 		{
-			vector<TEACHER_DATA>::iterator it = schoolData.teachers.begin() + choice;
-			if (it <= schoolData.teachers.end())
+			if (schoolData.teachers.begin() + choice <= schoolData.teachers.end())
 			{
-				schoolData.teachers.erase(it);
+				schoolData.teachers.erase(schoolData.teachers.begin() + choice);
+				return 1;
 			}
-			break;
+			return 0;
 		}
 		case 2: 
 		{
-			vector<STUDENT_DATA>::iterator it = schoolData.students.begin() + choice;
-			if (it <= schoolData.students.end())
+			if (schoolData.students.begin() + choice <= schoolData.students.end())
 			{
-				schoolData.students.erase(it);
+				schoolData.students.erase(schoolData.students.begin() + choice);
+				return 1;
 			}
-			break;
+			return 0;
 		}
 		case 3:
 		{
-			vector<TEAM_DATA>::iterator it = schoolData.teams.begin() + choice;
-			if (it <= schoolData.teams.end())
+			if (schoolData.teams.begin() + choice <= schoolData.teams.end())
 			{
-				schoolData.teams.erase(it);
+				schoolData.teams.erase(schoolData.teams.begin() + choice);
+				return 1;
 			}
-			break;
+			return 0;
 		}
-		case 0: break;
-		default: cout << "Invalid choice" << endl;
+		case 0: return 0;
+		default: 
+		{
+			cout << "Invalid choice" << endl;
+			return 0;
+		}
 		}
 	}
 	catch (...)
 	{
 		cout << "Error: Incorrect data input" << endl;
 	}
+	return 0;
 }
+
 bool checkFile(string fileName)
 {
 	ifstream file;
@@ -294,6 +319,7 @@ bool checkFile(string fileName)
 
 
 }
+
 bool createFile(string fileName)
 {
 	ofstream file;
@@ -308,7 +334,8 @@ bool createFile(string fileName)
 	}
 	return false;
 }
-bool deleteFile(std::string fileName)
+
+bool deleteFile(string fileName)
 {
 	// 0 means success
 	// != 0 means failure
@@ -320,7 +347,8 @@ bool deleteFile(std::string fileName)
 	}
 	return 0;
 }
-int renameFile(std::string oldFileName, std::string newFileName)
+
+int renameFile(string oldFileName, string newFileName)
 {
 	// 0 means success
 	// != 0 means failure
@@ -333,10 +361,7 @@ int renameFile(std::string oldFileName, std::string newFileName)
 
 	return 0;
 }
-void enterInfoInFiles(SCHOOL_DATA& schoolData)
-{
 
-}
 void fcreateFile(string fileName)
 {
 	if (checkFile(fileName) == 0)
@@ -344,36 +369,35 @@ void fcreateFile(string fileName)
 		createFile(fileName);
 	}
 	else cout << "The file you are trying to create already exists!";
-	if (checkFile(fileName) == 0)
-	{
-		cout << "Hmmm... there is something wrong!";
-	}
 }
-string nameFiles(string students, string teachers, string teams)
+
+bool nameFiles(string students, string teachers, string teams)
 {
 	fcreateFile(students);
 	fcreateFile(teachers);
 	fcreateFile(teams);
 	if (checkFile(teams) == 0 && checkFile(students) == 0 && checkFile(teachers) == 0)
 	{
-		return "Everything is working fine!\n";
+		return 1;
 	}
-	else return "Some error occured while creating the files\n";
+	else return 0;
 }
-void inputFileNames(string students, string teachers, string teams)
+
+bool inputFileNames()
 {
-	cout << "Now you have to create your student, teacher and team .txt files that will contain all your students, teachers and teams" << endl;
+	string students, teachers, teams;
+	cout << "Before starting, you'll have to create your student, teacher and team .txt files that will contain all your students, teachers and teams" << endl;
 	cout << "Let's begin with the student's file\n"<<endl;
 	cout << "Enter a suitable name for the file: ";
 	cin >> students;
 	cout << endl;
-	cout << "Now for the teacher's file : ";
+	cout << "Now for the teacher's file: ";
 	cin >> teachers;
 	cout << endl;
 	cout << "And lastly a file for all the teams: ";
 	cin >> teams;
 	cout << endl;
-	cout << nameFiles(students, teachers, teams);
+	return nameFiles(students, teachers, teams);
 }
 
 void showFileContents()
@@ -395,13 +419,14 @@ string getTime()
 	info = "The last update was made at: " + dt;
 	return info;
 }
+
 void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	TEAM_DATA team;
 	ofstream file;
 	file << getTime();
-	file.open(fileName, ios::in | ios::app);
-	for (int i = 0; i < schoolData.teams.size(); i++)
+	file.open(fileName, ios::in | ios::trunc);
+	for (size_t i = 0; i < schoolData.teams.size(); i++)
 	{
 		team = schoolData.teams[i];
 		if (checkInUse(team.status))
@@ -414,40 +439,42 @@ void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 		file << "The teacher in this team is:" << endl;
 		file << team.teacher.name << endl;
 		file << "Students in this team are:" << endl;
-		for (int j = 0; j < team.students.size(); j++)
+		for (size_t j = 0; j < team.students.size(); j++)
 		{
 			file << j << ". " << team.students[j].name << endl;
 		}
 		file << "---------------------------------------------------------------";
 	}
 }
+
 void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	TEACHER_DATA teacher;
 	ofstream file;
 	file << getTime();
-	file.open(fileName, ios::in | ios::app);
-	for (int i = 0; i < schoolData.teachers.size(); i++)
+	file.open(fileName, ios::in | ios::trunc);
+	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
 		file << i << ". " << teacher.name << teacher.surname << endl;
 		file << "                " << teacher.email << endl;
 		file << "Teams:" << endl;
-		for (int j = 0; j < teacher.teams.size(); j++)
+		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
 			file << "  " << j << ". " << teacher.teams[j];
 		}
 	}
 	file.close();
 }
+
 void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	STUDENT_DATA student;
 	ofstream file;
 	fileName = fileName + ".txt";
-	file.open(fileName, ios::in | ios::app);
+	file.open(fileName, ios::in | ios::trunc);
 	file << getTime();
-	for (int i = 0; i < schoolData.students.size(); i++)
+	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
 		file << i << ". " << student.name << student.surname << " class" << student.klas << endl;
@@ -455,6 +482,53 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 	}
 	file.close();
 }
+
+bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
+{
+	int choice;
+	try
+	{
+		if (!checkFile(fileName))
+		{
+			fcreateFile(fileName);
+		}
+		cout << "1. Write teachers in file" << endl;
+		cout << "2. Write students in file" << endl;
+		cout << "3. Write teams in file" << endl;
+		cout << "0. Go back" << endl;
+		cin >> choice;
+		switch (choices[1])
+		{
+		case 1:
+		{
+			writeTeachersInFile(fileName, schoolData);
+			return 1;
+		}
+		case 2:
+		{
+			writeStudentsInFile(fileName, schoolData);
+			return 1;
+		}
+		case 3:
+		{
+			writeTeamsInFile(fileName, schoolData);
+			return 1;
+		}
+		case 0: return 0;
+		default:
+		{
+			cout << "Invalid choice" << endl;
+			return 0;
+		}
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+	return 0;
+}
+
 void credits()
 {
 	cout << endl;
