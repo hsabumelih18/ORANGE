@@ -89,26 +89,87 @@ bool checkInUse(TEAM_STATUS status)
 	return false;
 }
 
-void showElements(SCHOOL_DATA& schoolData)
+void showAllTeamsElements(SCHOOL_DATA& schoolData)
 {
+	TEAM_DATA team;
 	cout << getTime();
 	for (int i = 0; i < schoolData.teams.size(); i++)
 	{
-		if (checkInUse(schoolData.teams[i].status))
+		team = schoolData.teams[i];
+		if (checkInUse(team.status))
 		{
-			cout << "File: " << schoolData.teams[i].name;
+			cout << "File: " << team.name;
 		}
 		else continue;
-		cout << "Team's description: " << schoolData.teams[i].description << endl;
-		cout << "This team was set up at: " << schoolData.teams[i].setUpDate << endl;
+		cout << "Team's description: " <<team.description << endl;
+		cout << "This team was set up at: " << team.setUpDate << endl;
 		cout << "The teacher in this team is:" << endl;
-		cout << schoolData.teams[i].teacher.name << endl;
+		cout << team.teacher.name << endl;
 		cout << "Students in this team are:" << endl;
-		for (int j = 0; j < schoolData.teams[i].students.size(); j++)
+		for (int j = 0; j < team.students.size(); j++)
 		{
-			cout << j << ". " << schoolData.teams[i].students[j].name << endl;
+			cout << j << ". " << team.students[j].name << endl;
+		}
+		cout << "---------------------------------------------------------------";
+	}
+}
+string roleToString(ROLE role)
+{
+	switch (role)
+	{
+	case sTrainer:
+		return "Scrum Trainer";
+	case qaEngineer:
+		return "QA Engineer";
+	case backEnd:
+		return "Back End Developer";
+	case frontEnd:
+		return "Front End Developer";
+	case noRole:
+		return "NO ROLE";
+	default:
+		return "ERROR";
+	}
+}
+string statusToString(TEAM_STATUS status)
+{
+	switch (status)
+	{
+	case inUse:
+		return "IN USE";
+	case notActive:
+		return "NOT ACTIVE";
+	case archived:
+		return "ARCHIVED";
+	}
+}
+void showAllStudentElements(SCHOOL_DATA& schoolData)
+{
+	STUDENT_DATA student;
+	cout << getTime();
+	for (int i = 0; i < schoolData.students.size(); i++)
+	{
+		student = schoolData.students[i];
+		cout << i << ". " << student.name << student.surname <<" class" << student.klas << endl;
+		cout << "                " << student.email << "Role: " << roleToString(student.role);
+	}
+}
+void showAllTeacherElements(SCHOOL_DATA& schoolData)
+{
+	TEACHER_DATA teacher;
+	cout << getTime();
+	for (int i = 0; i < schoolData.teachers.size(); i++)
+	{
+		teacher = schoolData.teachers[i];
+		cout << i << ". " << teacher.name << teacher.surname<<endl;
+		cout << "                " << teacher.email <<endl;
+		cout << "Teams:"<<endl;
+		for (int j = 0; j < teacher.teams.size(); j++)
+		{
+			cout << "  " << j <<". "<< teacher.teams[j];
 		}
 	}
+
 }
 
 void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
@@ -153,7 +214,7 @@ void editTeams(SCHOOL_DATA& schoolData)
 			cout << "Invalid team index" << endl;
 		}
 		else {
-			showElements(schoolData);
+			showAllTeamsElements(schoolData);
 			cin >> choiceElement;
 			switch (choiceElement)
 			{
@@ -236,6 +297,7 @@ bool checkFile(string fileName)
 bool createFile(string fileName)
 {
 	ofstream file;
+	fileName = fileName + ".txt";
 
 	file.open(fileName, ios::out | ios::trunc);
 
@@ -275,7 +337,6 @@ void enterInfoInFiles(SCHOOL_DATA& schoolData)
 {
 
 }
-
 void fcreateFile(string fileName)
 {
 	if (checkFile(fileName) == 0)
@@ -283,10 +344,36 @@ void fcreateFile(string fileName)
 		createFile(fileName);
 	}
 	else cout << "The file you are trying to create already exists!";
-	if (checkFile(fileName)==0)
+	if (checkFile(fileName) == 0)
 	{
 		cout << "Hmmm... there is something wrong!";
 	}
+}
+string nameFiles(string students, string teachers, string teams)
+{
+	fcreateFile(students);
+	fcreateFile(teachers);
+	fcreateFile(teams);
+	if (checkFile(teams) == 0 && checkFile(students) == 0 && checkFile(teachers) == 0)
+	{
+		return "Everything is working fine!\n";
+	}
+	else return "Some error occured while creating the files\n";
+}
+void inputFileNames(string students, string teachers, string teams)
+{
+	cout << "Now you have to create your student, teacher and team .txt files that will contain all your students, teachers and teams" << endl;
+	cout << "Let's begin with the student's file\n"<<endl;
+	cout << "Enter a suitable name for the file: ";
+	cin >> students;
+	cout << endl;
+	cout << "Now for the teacher's file : ";
+	cin >> teachers;
+	cout << endl;
+	cout << "And lastly a file for all the teams: ";
+	cin >> teams;
+	cout << endl;
+	cout << nameFiles(students, teachers, teams);
 }
 
 void showFileContents()
