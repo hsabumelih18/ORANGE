@@ -395,7 +395,66 @@ string getTime()
 	info = "The last update was made at: " + dt;
 	return info;
 }
-
+void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
+{
+	TEAM_DATA team;
+	ofstream file;
+	file << getTime();
+	file.open(fileName, ios::in | ios::app);
+	for (int i = 0; i < schoolData.teams.size(); i++)
+	{
+		team = schoolData.teams[i];
+		if (checkInUse(team.status))
+		{
+			cout << "File: " << team.name;
+		}
+		else continue;
+		file << "Team's description: " << team.description << endl;
+		file << "This team was set up at: " << team.setUpDate << endl;
+		file << "The teacher in this team is:" << endl;
+		file << team.teacher.name << endl;
+		file << "Students in this team are:" << endl;
+		for (int j = 0; j < team.students.size(); j++)
+		{
+			file << j << ". " << team.students[j].name << endl;
+		}
+		file << "---------------------------------------------------------------";
+	}
+}
+void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
+{
+	TEACHER_DATA teacher;
+	ofstream file;
+	file << getTime();
+	file.open(fileName, ios::in | ios::app);
+	for (int i = 0; i < schoolData.teachers.size(); i++)
+	{
+		teacher = schoolData.teachers[i];
+		file << i << ". " << teacher.name << teacher.surname << endl;
+		file << "                " << teacher.email << endl;
+		file << "Teams:" << endl;
+		for (int j = 0; j < teacher.teams.size(); j++)
+		{
+			file << "  " << j << ". " << teacher.teams[j];
+		}
+	}
+	file.close();
+}
+void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
+{
+	STUDENT_DATA student;
+	ofstream file;
+	fileName = fileName + ".txt";
+	file.open(fileName, ios::in | ios::app);
+	file << getTime();
+	for (int i = 0; i < schoolData.students.size(); i++)
+	{
+		student = schoolData.students[i];
+		file << i << ". " << student.name << student.surname << " class" << student.klas << endl;
+		file << "                " << student.email << "Role: " << roleToString(student.role);
+	}
+	file.close();
+}
 void credits()
 {
 	cout << endl;
