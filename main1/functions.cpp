@@ -10,33 +10,41 @@ using namespace std;
 vector <vector <string>> MENU_ITEMS
 {
 	{
-		{ "1. Add elements" },
-		{ "2. Edit elements" },
-		{ "3. Delete elements" },
-		{ "4. Write elements in a .txt file" },
-		{ "5. Credits"},
-		{ "0. Exit program" }
+		{ "|------------MENU-----------------|"},
+		{ "| 1. Add elements                 |" },
+		{ "| 2. Edit elements                |" },
+		{ "| 3. Delete elements              |" },
+		{ "| 4. Write elements in a .txt file|" },
+		{ "| 5. Credits                      |"},
+		{ "| 0. Exit program                 |" },
+		{ "|---------------------------------|"}
 	},
 	{
-		{ "1. Teacher" },
-		{ "2. Student" },
-		{ "3. Team" },
-		{ "4. School" },
-		{ "0. Go back" }
+		{ "|----MENU----|"},
+		{ "| 1. Teacher |" },
+		{ "| 2. Student |" },
+		{ "| 3. Team    |" },
+		{ "| 4. School  |" },
+		{ "| 0. Go back |" },
+		{ "|------------|"}
 	},
 	{
-		{ "1. Edit name" },
-		{ "2. Edit surname" },
-		{ "3. Edit email" },
-		{ "4. Edit role" },
-		{ "5. Edit class" },
-		{ "0. Go back" }
+		{ "|------MENU-------| "},
+		{ "| 1. Edit name    |" },
+		{ "| 2. Edit surname |" },
+		{ "| 3. Edit email   |" },
+		{ "| 4. Edit role    |" },
+		{ "| 5. Edit class   |" },
+		{ "| 0. Go back      |" },
+		{ "|-----------------|"}
 	},
 	{
-		{ "1. Add students" },
-		{ "2. Change students" },
-		{ "3. Add/Change teacher" },
-		{ "0. Go back" }
+		{ "|---------MENU----------|"},
+		{ "| 1. Add students       |" },
+		{ "| 2. Change students    |" },
+		{ "| 3. Add/Change teacher |" },
+		{ "| 0. Go back            |" },
+		{ "|-----------------------|"}
 	}
 };
 
@@ -76,7 +84,9 @@ int menus(int menu, int* choices)
 		cout << "Invalid input" << endl;
 		return -1;
 	}
+	cout << "Enter your choice: ";
 	choice = testInt();
+	system("CLS");
 	return choice;
 }
 
@@ -228,23 +238,44 @@ void editTeams(SCHOOL_DATA& schoolData)
 	}
 	try
 	{
+		cout << "Your choice: ";
 		cin >> choiceTeam;
 		if (choiceTeam > schoolData.teams.size()) {
 			cout << "Invalid team index" << endl;
 		}
 		else {
 			showAllTeamsElements(schoolData);
+			cout << "Your choice: ";
 			cin >> choiceElement;
 			switch (choiceElement)
 			{
-			case 1: cin >> schoolData.teams[choiceTeam - 1].name; break;
-			case 2: cin >> schoolData.teams[choiceTeam - 1].description; break;
-			case 3: cin >> schoolData.teams[choiceTeam - 1].setUpDate; break;
-			case 4: cin >> schoolData.teams[choiceTeam - 1].teacher.name; break;
-			case 0: break;
-			default: cout << "Invalid option" << endl;
+			case 1:
+			{
+				cout << "Enter the team's new name: ";
+				cin >> schoolData.teams[choiceTeam - 1].name; break;
+				cout << endl;
 			}
-			cout << "Team data successfully changed!" << endl;
+			case 2: {
+				cout << "Enter the team's new description: ";
+				cin >> schoolData.teams[choiceTeam - 1].description; break; 
+				cout << endl;
+			}
+			case 3: 
+			{
+				cout << "Enter the team's new set up date: ";
+				cin >> schoolData.teams[choiceTeam - 1].setUpDate; break;
+				cout << endl;
+			}
+			case 4: 
+			{
+				cout << "Enter the team's new teacher name: ";
+				cin >> schoolData.teams[choiceTeam - 1].teacher.name; break;
+				cout << endl;
+			}
+			case 0: break;
+			default: cout << "Hmm... Something went wrong, please try entering a value between 0 and 4! " << endl;
+			}
+			cout << "Bravo! Team data successfully changed!" << endl;
 		}
 	}
 	catch (...)
@@ -258,7 +289,9 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 	int choice;
 	try
 	{
-		cout << "Choose index to erase: " << endl;
+		cout << "This is the delete element function!" << endl;
+		cout << "Enter the index of the element you want to erase!" <<endl;
+		cout << "Your input : ";
 		cin >> choice;
 		switch (choices[1])
 		{
@@ -496,6 +529,7 @@ bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
 		cout << "2. Write students in file" << endl;
 		cout << "3. Write teams in file" << endl;
 		cout << "0. Go back" << endl;
+		cout << "Enter your choice: ";
 		cin >> choice;
 		switch (choices[1])
 		{
@@ -517,7 +551,7 @@ bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
 		case 0: return 0;
 		default:
 		{
-			cout << "Invalid choice" << endl;
+			cout << "Hmm... Something went wrong! Please try entering a value between 0 and 3!" << endl;
 			return 0;
 		}
 		}
@@ -532,9 +566,11 @@ bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
 void credits()
 {
 	cout << endl;
-	cout << "Scrum Trainer:          Hussein Abumelih\n" << endl;
-	cout << "C++ Developer:	         Teodor Angelov\n" << endl;
-	cout << "Front End Developer:    Stephan Stratev\n" << endl;
-	cout << "QA Engineer:            Alexander Yanev\n" << endl;
+	cout << "|------------------------------------------|\n";
+	cout << "| Scrum Trainer:          Hussein Abumelih |\n";
+	cout << "| C++ Developer:	         Teodor Angelov |\n";
+	cout << "| Front End Developer:    Stephan Stratev  |\n";
+	cout << "| QA Engineer:            Alexander Yanev  |\n";
+	cout << "|------------------------------------------|\n";
 	cout << endl;
 }
