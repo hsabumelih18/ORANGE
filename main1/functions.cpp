@@ -10,41 +10,49 @@ using namespace std;
 vector <vector <string>> MENU_ITEMS
 {
 	{
-		{ "|------------MENU-----------------|"},
-		{ "| 1. Add elements                 |" },
-		{ "| 2. Edit elements                |" },
-		{ "| 3. Delete elements              |" },
-		{ "| 4. Write elements in a .txt file|" },
-		{ "| 5. Credits                      |"},
-		{ "| 0. Exit program                 |" },
-		{ "|---------------------------------|"}
+		{ "|-------------[ MENU ]-------------|" },
+		{ "| 1. Add elements                  |" },
+		{ "| 2. Edit elements                 |" },
+		{ "| 3. Delete elements               |" },
+		{ "| 4. Write elements in a .txt file |" },
+		{ "| 5. Credits                       |" },
+		{ "| 0. Exit program                  |" },
+		{ "|----------------------------------|" }
 	},
 	{
-		{ "|----MENU----|"},
+		{ "|--[ MENU ]--|" },
 		{ "| 1. Teacher |" },
 		{ "| 2. Student |" },
 		{ "| 3. Team    |" },
 		{ "| 4. School  |" },
 		{ "| 0. Go back |" },
-		{ "|------------|"}
+		{ "|------------|" }
 	},
 	{
-		{ "|------MENU-------| "},
+		{ "|----[ MENU ]-----|" },
 		{ "| 1. Edit name    |" },
 		{ "| 2. Edit surname |" },
 		{ "| 3. Edit email   |" },
 		{ "| 4. Edit role    |" },
 		{ "| 5. Edit class   |" },
 		{ "| 0. Go back      |" },
-		{ "|-----------------|"}
+		{ "|-----------------|" }
 	},
 	{
-		{ "|---------MENU----------|"},
+		{ "|-------[ MENU ]--------|" },
 		{ "| 1. Add students       |" },
 		{ "| 2. Change students    |" },
 		{ "| 3. Add/Change teacher |" },
 		{ "| 0. Go back            |" },
-		{ "|-----------------------|"}
+		{ "|-----------------------|" }
+	},
+		{
+		{ "|----------[ MENU ]----------|" },
+		{ "| 1. Write teachers in file  |" },
+		{ "| 2. Write students in file  |" },
+		{ "| 3. Write teams in file     |" },
+		{ "| 0. Go back                 |" },
+		{ "|----------------------------|" }
 	}
 };
 
@@ -60,6 +68,15 @@ int testInt()
 	return choice;
 }
 
+string getTime()
+{
+	string info;
+	time_t now = time(0);
+	string dt = ctime(&now);
+	info = "The last update was made at: " + dt;
+	return info;
+}
+
 int menus(int menu, int* choices)
 {
 	int choice;
@@ -67,7 +84,7 @@ int menus(int menu, int* choices)
 	{
 		for (size_t i = 0; i < MENU_ITEMS[menu].size(); i++)
 		{
-			if (menu == 0 || menu == 3) { 
+			if (menu == 0 || menu == 3 || menu == 4) { 
 				cout << MENU_ITEMS[menu][i] << endl; 
 			}
 			if (menu == 1){
@@ -158,18 +175,6 @@ string statusToString(TEAM_STATUS status)
 	}
 }
 
-void showAllStudentElements(SCHOOL_DATA& schoolData)
-{
-	STUDENT_DATA student;
-	cout << getTime();
-	for (size_t i = 0; i < schoolData.students.size(); i++)
-	{
-		student = schoolData.students[i];
-		cout << i << ". " << student.name << student.surname <<" class" << student.klas << endl;
-		cout << "                " << student.email << "Role: " << roleToString(student.role);
-	}
-}
-
 void showAllTeacherElements(SCHOOL_DATA& schoolData)
 {
 	TEACHER_DATA teacher;
@@ -186,6 +191,18 @@ void showAllTeacherElements(SCHOOL_DATA& schoolData)
 		}
 	}
 
+}
+
+void showAllStudentElements(SCHOOL_DATA& schoolData)
+{
+	STUDENT_DATA student;
+	cout << getTime();
+	for (size_t i = 0; i < schoolData.students.size(); i++)
+	{
+		student = schoolData.students[i];
+		cout << i << ". " << student.name << student.surname <<" class" << student.klas << endl;
+		cout << "                " << student.email << "Role: " << roleToString(student.role);
+	}
 }
 
 void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
@@ -227,7 +244,7 @@ bool addElement(SCHOOL_DATA& schoolData, int* choices)
 	}
 }
 
-void editTeams(SCHOOL_DATA& schoolData)
+bool editTeams(SCHOOL_DATA& schoolData)
 {
 	size_t choiceTeam;
 	size_t choiceElement;
@@ -252,36 +269,84 @@ void editTeams(SCHOOL_DATA& schoolData)
 			case 1:
 			{
 				cout << "Enter the team's new name: ";
-				cin >> schoolData.teams[choiceTeam - 1].name; break;
+				cin >> schoolData.teams[choiceTeam - 1].name;
 				cout << endl;
+				return 1;
 			}
 			case 2: {
 				cout << "Enter the team's new description: ";
-				cin >> schoolData.teams[choiceTeam - 1].description; break; 
+				cin >> schoolData.teams[choiceTeam - 1].description; 
 				cout << endl;
+				return 1;
 			}
 			case 3: 
 			{
 				cout << "Enter the team's new set up date: ";
-				cin >> schoolData.teams[choiceTeam - 1].setUpDate; break;
+				cin >> schoolData.teams[choiceTeam - 1].setUpDate;
 				cout << endl;
+				return 1;
 			}
 			case 4: 
 			{
 				cout << "Enter the team's new teacher name: ";
-				cin >> schoolData.teams[choiceTeam - 1].teacher.name; break;
+				cin >> schoolData.teams[choiceTeam - 1].teacher.name;
 				cout << endl;
+				return 1;
 			}
-			case 0: break;
-			default: cout << "Hmm... Something went wrong, please try entering a value between 0 and 4! " << endl;
+			case 0: return 0;
+			default: cout << "Hmm... Something went wrong, please try entering a value between 0 and 4! " << endl; return 0;
 			}
-			cout << "Bravo! Team data successfully changed!" << endl;
 		}
 	}
 	catch (...)
 	{
 		cout << "Error: Incorrect data input" << endl;
 	}
+	return 0;
+}
+
+bool editStudents(SCHOOL_DATA& schoolData, int choice)
+{
+	showAllStudentElements(schoolData);
+	int choiceIndex;
+	cin >> choiceIndex;
+
+	return 0;
+}
+
+bool editTeachers(SCHOOL_DATA& schoolData, int choice)
+{
+	return 0;
+}
+
+bool editElements(SCHOOL_DATA& schoolData, int* choices)
+{
+	int choice;
+	try
+	{
+		switch (choices[1])
+		{
+		case 1: choice = menus(2, choices);
+		case 2: choice = menus(2, choices);
+		case 3: choice = menus(3, choices);
+		case 0: return 0;
+		default: return 0;
+		}
+
+		switch (choice)
+		{
+		case 1: if (editTeachers(schoolData, choice)) { return 1; } break;
+		case 2: if (editStudents(schoolData, choice)) { return 1; } break;
+		case 3: if (editTeams(schoolData)) { return 1; } break;
+		case 0: return 0;
+		default: return 0;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+	return 0;
 }
 
 bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
@@ -289,36 +354,58 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 	int choice;
 	try
 	{
-		cout << "This is the delete element function!" << endl;
-		cout << "Enter the index of the element you want to erase!" <<endl;
-		cout << "Your input : ";
+		cout << "This is the delete element function!" << endl << endl;
+		switch (choices[1])
+		{
+		case 1: showAllTeacherElements(schoolData); break;
+		case 2: showAllStudentElements(schoolData); break;
+		case 3: showAllTeamsElements(schoolData); break;
+		default: cout << "Invalid choice" << endl; return 0;
+		}
+		cout << "Enter the index of the element you want to erase!" << endl;
+		cout << "Your input: ";
 		cin >> choice;
 		switch (choices[1])
 		{
 		case 1: 
 		{
-			if (schoolData.teachers.begin() + choice <= schoolData.teachers.end())
+			if (!schoolData.teachers.empty())
 			{
-				schoolData.teachers.erase(schoolData.teachers.begin() + choice);
-				return 1;
+				vector<TEACHER_DATA>::iterator it = schoolData.teachers.begin();
+				advance(it, choice);
+				if (it <= schoolData.teachers.end())
+				{
+					schoolData.teachers.erase(it);
+					return 1;
+				}
 			}
 			return 0;
 		}
 		case 2: 
 		{
-			if (schoolData.students.begin() + choice <= schoolData.students.end())
+			if (!schoolData.students.empty())
 			{
-				schoolData.students.erase(schoolData.students.begin() + choice);
-				return 1;
+				vector<STUDENT_DATA>::iterator it = schoolData.students.begin();
+				advance(it, choice);
+				if (it <= schoolData.students.end())
+				{
+					schoolData.students.erase(it);
+					return 1;
+				}
 			}
 			return 0;
 		}
 		case 3:
 		{
-			if (schoolData.teams.begin() + choice <= schoolData.teams.end())
+			if (!schoolData.teams.empty())
 			{
-				schoolData.teams.erase(schoolData.teams.begin() + choice);
-				return 1;
+				vector<TEAM_DATA>::iterator it = schoolData.teams.begin();
+				advance(it, choice);
+				if (it <= schoolData.teams.end())
+				{
+					schoolData.teams.erase(it);
+					return 1;
+				}
 			}
 			return 0;
 		}
@@ -444,15 +531,6 @@ void showFileContents()
 
 }
 
-string getTime()
-{
-	string info;
-	time_t now = time(0);
-	string dt = ctime(&now);
-	info = "The last update was made at: " + dt;
-	return info;
-}
-
 void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	TEAM_DATA team;
@@ -525,12 +603,7 @@ bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
 		{
 			fcreateFile(fileName);
 		}
-		cout << "1. Write teachers in file" << endl;
-		cout << "2. Write students in file" << endl;
-		cout << "3. Write teams in file" << endl;
-		cout << "0. Go back" << endl;
-		cout << "Enter your choice: ";
-		cin >> choice;
+		choice = menus(4, choices);
 		switch (choices[1])
 		{
 		case 1:

@@ -18,8 +18,8 @@ int main()
 		else { cout << "Some error occured while creating the files" << endl; }
 	} while (!loopUntilOne);
 
-
-	int choices[3] = { -1, -1, -1 };
+	bool editSuccess = 0;
+	int choices[2] = { -1, -1 };
 	do
 	{
 		choices[0] = menus(0, choices);
@@ -40,8 +40,8 @@ int main()
 					}
 					case 2:
 					{
-						if (choices[1] < 3) { choices[2] = menus(2, choices); }
-						else { choices[2] = menus(3, choices); }
+						if (editElements(schoolData, choices)) { cout << "Bravo! Team data successfully changed!" << endl; editSuccess = 1; }
+						else { cout << "No element has been edited." << endl; }
 						break;
 					}
 					case 3:
@@ -56,10 +56,12 @@ int main()
 						cin >> fileName;
 						if (writeInFile(fileName, schoolData, choices)) { cout << "Successfully written in file!" << endl; }
 						else { cout << "Nothing was written in a file." << endl; }
+						break;
 					}
 					default:
 					{
 						cout << "Invalid input" << endl;
+						break;
 					}
 					}
 				}
