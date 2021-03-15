@@ -33,8 +33,8 @@ vector <vector <string>> MENU_ITEMS
 		{ "| 1. Edit name    |" },
 		{ "| 2. Edit surname |" },
 		{ "| 3. Edit email   |" },
-		{ "| 4. Edit role    |" },
-		{ "| 5. Edit class   |" },
+		{ "| 4. Edit class   |" },
+		{ "| 5. Edit role    |" },
 		{ "| 0. Go back      |" },
 		{ "|-----------------|" }
 	},
@@ -216,6 +216,30 @@ void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
 	}
 }
 
+bool roleEdit(SCHOOL_DATA& schoolData, int choiceIndex)
+{
+	int choice;
+	cout << "Choose one of the following roles: " << endl;
+	cout << "Scrum Trainer (1), Q&A Engineer (2), Back End Developer (3), Front End Developer (4) or any other number to go back" << endl;
+	try
+	{
+		cin >> choice;
+		switch (choice)
+		{
+		case 1: schoolData.students[choiceIndex].role = sTrainer; return 1;
+		case 2: schoolData.students[choiceIndex].role = qaEngineer; return 1;
+		case 3: schoolData.students[choiceIndex].role = backEnd; return 1;
+		case 4: schoolData.students[choiceIndex].role = frontEnd; return 1;
+		default: return 0;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+	return 0;
+}
+
 bool addElement(SCHOOL_DATA& schoolData, int* choices)
 {
 	switch (choices[1])
@@ -244,6 +268,24 @@ bool addElement(SCHOOL_DATA& schoolData, int* choices)
 	}
 }
 
+bool assignTeacherToTeam(SCHOOL_DATA& schoolData, int choiceTeam)
+{
+	int choice;
+	showAllTeacherElements(schoolData);
+	cout << endl << "Assign a teacher to this team (index): ";
+	try
+	{
+		cin >> choice;
+		schoolData.teams[choiceTeam].teacher.name = schoolData.teachers[choice].name;
+		return 1;
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
+	return 0;
+}
+
 bool editTeams(SCHOOL_DATA& schoolData)
 {
 	size_t choiceTeam;
@@ -260,7 +302,8 @@ bool editTeams(SCHOOL_DATA& schoolData)
 		if (choiceTeam > schoolData.teams.size()) {
 			cout << "Invalid team index" << endl;
 		}
-		else {
+		else 
+		{
 			showAllTeamsElements(schoolData);
 			cout << "Your choice: ";
 			cin >> choiceElement;
@@ -269,29 +312,27 @@ bool editTeams(SCHOOL_DATA& schoolData)
 			case 1:
 			{
 				cout << "Enter the team's new name: ";
-				cin >> schoolData.teams[choiceTeam - 1].name;
+				cin >> schoolData.teams[choiceTeam].name;
 				cout << endl;
 				return 1;
 			}
 			case 2: {
 				cout << "Enter the team's new description: ";
-				cin >> schoolData.teams[choiceTeam - 1].description; 
+				cin >> schoolData.teams[choiceTeam].description; 
 				cout << endl;
 				return 1;
 			}
 			case 3: 
 			{
 				cout << "Enter the team's new set up date: ";
-				cin >> schoolData.teams[choiceTeam - 1].setUpDate;
+				cin >> schoolData.teams[choiceTeam].setUpDate;
 				cout << endl;
 				return 1;
 			}
 			case 4: 
 			{
-				cout << "Enter the team's new teacher name: ";
-				cin >> schoolData.teams[choiceTeam - 1].teacher.name;
-				cout << endl;
-				return 1;
+				if (assignTeacherToTeam(schoolData, choiceTeam)) { return 1; }
+				else return 0;
 			}
 			case 0: return 0;
 			default: cout << "Hmm... Something went wrong, please try entering a value between 0 and 4! " << endl; return 0;
@@ -308,14 +349,79 @@ bool editTeams(SCHOOL_DATA& schoolData)
 bool editStudents(SCHOOL_DATA& schoolData, int choice)
 {
 	showAllStudentElements(schoolData);
-	int choiceIndex;
-	cin >> choiceIndex;
-
+	int choiceIndex; 
+	cout << endl << "Which student do you want to edit?" << endl;
+	try
+	{
+		cin >> choiceIndex;
+		switch (choice)
+		{
+		case 1:
+		{
+			cout << "Type a new name: " << endl;
+			cin >> schoolData.students[choiceIndex].name;
+		}
+		case 2:
+		{
+			cout << "Type a new surname: " << endl;
+			cin >> schoolData.students[choiceIndex].surname;
+		}
+		case 3:
+		{
+			cout << "Type a new email: " << endl;
+			cin >> schoolData.students[choiceIndex].email;
+		}
+		case 4:
+		{
+			cout << "Type a new class: " << endl;
+			cin >> schoolData.students[choiceIndex].klas;
+		}
+		case 5:
+		{
+			roleEdit(schoolData, choiceIndex);
+		}
+		default: return 0;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
 	return 0;
 }
 
 bool editTeachers(SCHOOL_DATA& schoolData, int choice)
 {
+	showAllTeacherElements(schoolData);
+	int choiceIndex;
+	cout << endl << "Which student do you want to edit?" << endl;
+	try
+	{
+		cin >> choiceIndex;
+		switch (choice)
+		{
+		case 1:
+		{
+			cout << "Type a new name: " << endl;
+			cin >> schoolData.students[choiceIndex].name;
+		}
+		case 2:
+		{
+			cout << "Type a new surname: " << endl;
+			cin >> schoolData.students[choiceIndex].surname;
+		}
+		case 3:
+		{
+			cout << "Type a new email: " << endl;
+			cin >> schoolData.students[choiceIndex].email;
+		}
+		default: return 0;
+		}
+	}
+	catch (...)
+	{
+		cout << "Error: Incorrect data input" << endl;
+	}
 	return 0;
 }
 
