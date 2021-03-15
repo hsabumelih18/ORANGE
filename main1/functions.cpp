@@ -535,7 +535,7 @@ void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	TEAM_DATA team;
 	ofstream file;
-	file << getTime();
+	file << getTime() << endl << endl;
 	file.open(fileName, ios::in | ios::trunc);
 	for (size_t i = 0; i < schoolData.teams.size(); i++)
 	{
@@ -562,7 +562,7 @@ void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
 {
 	TEACHER_DATA teacher;
 	ofstream file;
-	file << getTime();
+	file << getTime() << endl << endl;
 	file.open(fileName, ios::in | ios::trunc);
 	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
@@ -584,7 +584,7 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 	ofstream file;
 	fileName = fileName + ".txt";
 	file.open(fileName, ios::in | ios::trunc);
-	file << getTime();
+	file << getTime() << endl <<endl;
 	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
@@ -597,6 +597,7 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices)
 {
 	int choice;
+	fileName = fileName + ".txt";
 	try
 	{
 		if (!checkFile(fileName))
