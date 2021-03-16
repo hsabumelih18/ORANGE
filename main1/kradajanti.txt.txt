@@ -1,5 +1,0 @@
-The last update was made at: Mon Mar 15 22:15:19 2021
-0. namesurname class0
-                emailRole: NO ROLE1. namesurname class0
-                emailRole: NO ROLE2. namesurname class0
-                emailRole: NO ROLE

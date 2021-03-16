@@ -10,15 +10,7 @@ int main()
 {
 	SCHOOL_DATA schoolData;
 	string fileName;
-	bool loopUntilOne = 0;
-	do
-	{
-		loopUntilOne = inputFileNames();
-		if (loopUntilOne) { cout << "Successfully created all files" << endl; }
-		else { cout << "Some error occured while creating the files" << endl; }
-	} while (!loopUntilOne);
 
-	bool editSuccess = 0;
 	int choices[2] = { -1, -1 };
 	do
 	{
@@ -40,7 +32,7 @@ int main()
 					}
 					case 2:
 					{
-						if (editElements(schoolData, choices)) { cout << "NOTIFICATION: Bravo! Elements successfully changed!" << endl; editSuccess = 1; }
+						if (editElements(schoolData, choices)) { cout << "NOTIFICATION: Bravo! Elements successfully changed!" << endl; }
 						else { cout << "NOTIFICATION: No element has been edited." << endl; }
 						break;
 					}
@@ -74,10 +66,3 @@ int main()
 		}
 	} while (choices[0] != 0);
 }
-
-//to do
-//try catch thingies (idk)
-//choice layer thing (almost)
-//file writing thing (can someone else do it pls)
-//front end (not my job lol)
-//making sure shit doesn't break (oh boy)

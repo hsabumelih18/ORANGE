@@ -1,4 +1,0 @@
-0. namesurname
-                email
-Teams:
-  0. No teams yet.

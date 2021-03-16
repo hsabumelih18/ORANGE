@@ -68,6 +68,7 @@ int testInt()
 	}
 	return choice;
 }
+//checks if the input is an int
 
 string getTime()
 {
@@ -77,6 +78,7 @@ string getTime()
 	info = "The last update was made at: " + dt;
 	return info;
 }
+//output the current time
 
 int menus(int menu, int* choices)
 {
@@ -107,6 +109,7 @@ int menus(int menu, int* choices)
 	system("CLS");
 	return choice;
 }
+//a function for outputting the menus
 
 bool checkInUse(TEAM_STATUS status)
 {
@@ -116,6 +119,7 @@ bool checkInUse(TEAM_STATUS status)
 	}
 	return false;
 }
+//checks if a team is in use
 
 void showAllTeamsElements(SCHOOL_DATA& schoolData)
 {
@@ -127,9 +131,9 @@ void showAllTeamsElements(SCHOOL_DATA& schoolData)
 		cout << "File: " << team.name <<endl;
 		cout << "Team's description: " <<team.description << endl;
 		cout << "This team was set up at: " << team.setUpDate << endl;
-		cout << "The teacher in this team is:" << endl;
+		cout << "The teacher in this team is: ";
 		cout << team.teacher.name << endl;
-		cout << "Students in this team are:" << endl;
+		cout << "Students in this team are: " << endl;
 		for (size_t j = 0; j < team.students.size(); j++)
 		{
 			cout << j + 1 << ". " << team.students[j].name << endl;
@@ -138,40 +142,7 @@ void showAllTeamsElements(SCHOOL_DATA& schoolData)
 		cout << endl;
 	}
 }
-
-string roleToString(ROLE role)
-{
-	switch (role)
-	{
-	case sTrainer:
-		return "Scrum Trainer";
-	case qaEngineer:
-		return "QA Engineer";
-	case backEnd:
-		return "Back End Developer";
-	case frontEnd:
-		return "Front End Developer";
-	case noRole:
-		return "NO ROLE";
-	default:
-		return "ERROR";
-	}
-}
-
-string statusToString(TEAM_STATUS status)
-{
-	switch (status)
-	{
-	case inUse:
-		return "IN USE";
-	case notActive:
-		return "NOT ACTIVE";
-	case archived:
-		return "ARCHIVED";
-	default:
-		return "ERROR";
-	}
-}
+//outputs all teams' data
 
 void showAllTeacherElements(SCHOOL_DATA& schoolData)
 {
@@ -180,17 +151,17 @@ void showAllTeacherElements(SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
-		cout << i + 1 << ". " << teacher.name << teacher.surname<<endl;
-		cout << "                " << teacher.email <<endl;
-		cout << "Teams:"<<endl;
+		cout << i + 1 << ". " << teacher.name << " " << teacher.surname << endl;
+		cout << "    " << teacher.email << endl;
+		cout << "Teams: "<< endl;
 		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
-			cout << "  " << j + 1 <<". "<< teacher.teams[j];
+			cout << " " << j + 1 <<". "<< teacher.teams[j];
 		}
 		cout << endl << endl;
 	}
-
 }
+//outputs all teachers' data
 
 void showAllStudentElements(SCHOOL_DATA& schoolData)
 {
@@ -199,11 +170,12 @@ void showAllStudentElements(SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
-		cout << i + 1 << ". " << student.name << student.surname <<" class" << student.klas << endl;
-		cout << "                " << student.email << "Role: " << roleToString(student.role);
+		cout << i + 1 << ". " << student.name << " " << student.surname << " class " << student.klas << endl;
+		cout << "    " << student.email << "Role: " << roleToString(student.role);
 		cout << endl << endl;
 	}
 }
+//outputs all students' data
 
 void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
 {
@@ -215,6 +187,7 @@ void teamStatusSwitch(SCHOOL_DATA& schoolData, size_t usedTeamIndex)
 		}
 	}
 }
+//switches a team's status to inUse
 
 bool roleEdit(SCHOOL_DATA& schoolData, int choiceIndex)
 {
@@ -244,6 +217,7 @@ bool roleEdit(SCHOOL_DATA& schoolData, int choiceIndex)
 	}
 	return 0;
 }
+//edits a student's role
 
 bool addElement(SCHOOL_DATA& schoolData, int* choices)
 {
@@ -272,6 +246,7 @@ bool addElement(SCHOOL_DATA& schoolData, int* choices)
 	}
 	}
 }
+//adds an element in a vector
 
 bool assignTeacherToTeam(SCHOOL_DATA& schoolData, size_t choiceTeam)
 {
@@ -290,6 +265,7 @@ bool assignTeacherToTeam(SCHOOL_DATA& schoolData, size_t choiceTeam)
 	}
 	return 0;
 }
+//makes sure the assigned teacher exists
 
 bool editTeams(SCHOOL_DATA& schoolData)
 {
@@ -351,6 +327,7 @@ bool editTeams(SCHOOL_DATA& schoolData)
 	}
 	return 0;
 }
+//edits teams
 
 bool editStudents(SCHOOL_DATA& schoolData, int choice)
 {
@@ -361,7 +338,11 @@ bool editStudents(SCHOOL_DATA& schoolData, int choice)
 	try
 	{
 		cin >> choiceIndex;
-		choiceIndex--;
+		if (choiceIndex > schoolData.students.size())
+		{
+			cout << "ERROR: Try entering a valid index please!" << endl;
+			return 0;
+		}
 		switch (choice)
 		{
 		case 1:
@@ -402,6 +383,7 @@ bool editStudents(SCHOOL_DATA& schoolData, int choice)
 	}
 	return 0;
 }
+//edits students
 
 bool editTeachers(SCHOOL_DATA& schoolData, int choice)
 {
@@ -412,25 +394,30 @@ bool editTeachers(SCHOOL_DATA& schoolData, int choice)
 	try
 	{
 		cin >> choiceIndex;
+		if (choiceIndex > schoolData.teachers.size())
+		{
+			cout << "ERROR: Try entering a valid index please!" << endl;
+			return 0;
+		}
 		choiceIndex--;
 		switch (choice)
 		{
 		case 1:
 		{
 			cout << "Type a new name: " << endl;
-			cin >> schoolData.students[choiceIndex].name;
+			cin >> schoolData.teachers[choiceIndex].name;
 			return 1;
 		}
 		case 2:
 		{
 			cout << "Type a new surname: " << endl;
-			cin >> schoolData.students[choiceIndex].surname;
+			cin >> schoolData.teachers[choiceIndex].surname;
 			return 1;
 		}
 		case 3:
 		{
 			cout << "Type a new email: " << endl;
-			cin >> schoolData.students[choiceIndex].email;
+			cin >> schoolData.teachers[choiceIndex].email;
 			return 1;
 		}
 		default: return 0;
@@ -442,6 +429,7 @@ bool editTeachers(SCHOOL_DATA& schoolData, int choice)
 	}
 	return 0;
 }
+//edits teachers
 
 bool editElements(SCHOOL_DATA& schoolData, int* choices)
 {
@@ -555,6 +543,7 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 	}
 	return 0;
 }
+//deletes elements
 
 bool checkFile(string fileName)
 {
@@ -571,6 +560,7 @@ bool checkFile(string fileName)
 
 
 }
+//checks if the file exists
 
 bool createFile(string fileName)
 {
@@ -586,6 +576,7 @@ bool createFile(string fileName)
 	}
 	return false;
 }
+//creates a file
 
 bool deleteFile(string fileName)
 {
@@ -599,6 +590,7 @@ bool deleteFile(string fileName)
 	}
 	return 0;
 }
+//deletes a file
 
 int renameFile(string oldFileName, string newFileName)
 {
@@ -613,6 +605,7 @@ int renameFile(string oldFileName, string newFileName)
 
 	return 0;
 }
+//renames a file
 
 void fcreateFile(string fileName)
 {
@@ -620,36 +613,6 @@ void fcreateFile(string fileName)
 	{
 		createFile(fileName);
 	}
-	else cout << "The file you are trying to create already exists!";
-}
-
-bool nameFiles(string students, string teachers, string teams)
-{
-	fcreateFile(students);
-	fcreateFile(teachers);
-	fcreateFile(teams);
-	if (checkFile(teams) == 0 && checkFile(students) == 0 && checkFile(teachers) == 0)
-	{
-		return 1;
-	}
-	else return 0;
-}
-
-bool inputFileNames()
-{
-	string students, teachers, teams;
-	cout << "Before starting, you'll have to create your student, teacher and team .txt files that will contain all your students, teachers and teams" << endl;
-	cout << "Let's begin with the student's file\n"<<endl;
-	cout << "Enter a suitable name for the file: ";
-	cin >> students;
-	cout << endl;
-	cout << "Now for the teacher's file: ";
-	cin >> teachers;
-	cout << endl;
-	cout << "And lastly a file for all the teams: ";
-	cin >> teams;
-	cout << endl;
-	return nameFiles(students, teachers, teams);
 }
 
 void showFileContents()
@@ -662,6 +625,7 @@ void showFileContents()
 	}
 
 }
+//shows file contents
 
 void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 {
@@ -679,7 +643,7 @@ void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 		else continue;
 		file << "Team's description: " << team.description << endl;
 		file << "This team was set up at: " << team.setUpDate << endl;
-		file << "The teacher in this team is:" << endl;
+		file << "The teacher in this team is: ";
 		file << team.teacher.name << endl;
 		file << "Students in this team are:" << endl;
 		for (size_t j = 0; j < team.students.size(); j++)
@@ -700,8 +664,8 @@ void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
-		file << i << ". " << teacher.name << teacher.surname << endl;
-		file << "                " << teacher.email << endl;
+		file << i << ". " << teacher.name << " " << teacher.surname << endl;
+		file << "    " << teacher.email << endl;
 		file << "Teams:" << endl;
 		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
@@ -722,8 +686,8 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
-		file << i << ". " << student.name << student.surname << " class" << student.klas << endl;
-		file << "                " << student.email << "Role: " << roleToString(student.role);
+		file << i << ". " << student.name << " " << student.surname << " class " << student.klas << endl;
+		file << "    " << student.email << "Role: " << roleToString(student.role);
 		file << endl << endl;
 	}
 	file.close();
@@ -777,7 +741,7 @@ void credits()
 	cout << endl;
 	cout << "|------------------------------------------|\n";
 	cout << "| Scrum Trainer:          Hussein Abumelih |\n";
-	cout << "| C++ Developer:	         Teodor Angelov |\n";
+	cout << "| C++ Developer:          Teodor Angelov   |\n";
 	cout << "| Front End Developer:    Stephan Stratev  |\n";
 	cout << "| QA Engineer:            Alexander Yanev  |\n";
 	cout << "|------------------------------------------|\n";

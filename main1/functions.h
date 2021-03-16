@@ -70,5 +70,4 @@ bool editElements(SCHOOL_DATA& schoolData, int* choices);
 bool deleteElement(SCHOOL_DATA& schoolData, int* choices);
 bool writeInFile(string fileName, SCHOOL_DATA& schoolData, int* choices);
 string roleToString(ROLE role);
-bool inputFileNames();
 bool checkInUse(TEAM_STATUS status);
