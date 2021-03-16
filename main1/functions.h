@@ -25,25 +25,25 @@ enum TEAM_STATUS
 
 struct STUDENT_DATA
 {
-	string name = "name";
-	string surname = "surname";
+	string name = "No name";
+	string surname = "No surname";
 	int klas = 0;
 	ROLE role = ROLE::noRole;
-	string email = "email";
+	string email = "No email";
 };
 
 struct TEACHER_DATA
 {
-	string name = "name";
-	string surname = "surname";
+	string name = "No name";
+	string surname = "No surname";
 	vector <string> teams = { "No teams yet." };
-	string email = "email";
+	string email = "No email";
 };
 
 struct TEAM_DATA
 {
-	string name = "name";
-	string description = "description";
+	string name = "No name";
+	string description = "No description yet";
 	string setUpDate = "set up date";
 	vector <STUDENT_DATA> students;
 	TEAM_STATUS status = TEAM_STATUS::inUse;
@@ -52,9 +52,9 @@ struct TEAM_DATA
 
 struct SCHOOL_DATA
 {
-	string name = "name";
-	string city = "city";
-	string address = "address";
+	string name = "No name";
+	string city = "No city";
+	string address = "No address";
 	vector <TEACHER_DATA> teachers;
 	vector <TEAM_DATA> teams;
 	vector <STUDENT_DATA> students;

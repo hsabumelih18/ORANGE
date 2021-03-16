@@ -34,28 +34,28 @@ int main()
 					{
 					case 1:
 					{
-						if (addElement(schoolData, choices)) { cout << "Successfully added new element!" << endl; }
+						if (addElement(schoolData, choices)) { cout << "NOTIFICATION: Successfully added new element!" << endl; }
 						else { cout << "No element has been added." << endl; }
 						break;
 					}
 					case 2:
 					{
-						if (editElements(schoolData, choices)) { cout << "Bravo! Team data successfully changed!" << endl; editSuccess = 1; }
-						else { cout << "No element has been edited." << endl; }
+						if (editElements(schoolData, choices)) { cout << "NOTIFICATION: Bravo! Elements successfully changed!" << endl; editSuccess = 1; }
+						else { cout << "NOTIFICATION: No element has been edited." << endl; }
 						break;
 					}
 					case 3:
 					{
-						if (deleteElement(schoolData, choices)) { cout << "Successfully deleted element!" << endl; }
-						else { cout << "No element has been deleted." << endl; }
+						if (deleteElement(schoolData, choices)) { cout << "NOTIFICATION: Successfully deleted element!" << endl; }
+						else { cout << "NOTIFICATION: No element has been deleted." << endl; }
 						break;
 					}
 					case 4:
 					{
 						cout << "Choose file name (It'll create another file if it needs to) " << endl;
 						cin >> fileName;
-						if (writeInFile(fileName, schoolData, choices)) { cout << "Successfully written in file!" << endl; }
-						else { cout << "Nothing was written in a file." << endl; }
+						if (writeInFile(fileName, schoolData, choices)) { cout << "NOTIFICATION: Successfully written in file!" << endl; }
+						else { cout << "NOTIFICATION: Nothing was written in a file." << endl; }
 						break;
 					}
 					default:

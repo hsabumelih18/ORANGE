@@ -64,6 +64,7 @@ int testInt()
 		cin.clear();
 		cin.ignore(INT_MAX, '\n');
 		cout << "Incorrect value! Try entering a whole number!" << endl;
+		cout << "Enter your choice: ";
 	}
 	return choice;
 }
@@ -88,7 +89,7 @@ int menus(int menu, int* choices)
 				cout << MENU_ITEMS[menu][i] << endl; 
 			}
 			if (menu == 1){
-				if (i != 3 || choices[0] == 4) { cout << MENU_ITEMS[menu][i] << endl; }
+				if (i != 4 || choices[0] == 4) { cout << MENU_ITEMS[menu][i] << endl; }
 			}
 			if (menu == 2){
 				if (choices[1] == 2 || (i != 3 && i != 4)) { cout << MENU_ITEMS[menu][i] << endl; }
@@ -119,15 +120,11 @@ bool checkInUse(TEAM_STATUS status)
 void showAllTeamsElements(SCHOOL_DATA& schoolData)
 {
 	TEAM_DATA team;
-	cout << getTime();
 	for (size_t i = 0; i < schoolData.teams.size(); i++)
 	{
 		team = schoolData.teams[i];
-		if (checkInUse(team.status))
-		{
-			cout << "File: " << team.name;
-		}
-		else continue;
+		cout << "Team : " << i + 1 <<endl;
+		cout << "File: " << team.name <<endl;
 		cout << "Team's description: " <<team.description << endl;
 		cout << "This team was set up at: " << team.setUpDate << endl;
 		cout << "The teacher in this team is:" << endl;
@@ -135,9 +132,10 @@ void showAllTeamsElements(SCHOOL_DATA& schoolData)
 		cout << "Students in this team are:" << endl;
 		for (size_t j = 0; j < team.students.size(); j++)
 		{
-			cout << j << ". " << team.students[j].name << endl;
+			cout << j + 1 << ". " << team.students[j].name << endl;
 		}
 		cout << "---------------------------------------------------------------";
+		cout << endl;
 	}
 }
 
@@ -182,13 +180,14 @@ void showAllTeacherElements(SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
-		cout << i << ". " << teacher.name << teacher.surname<<endl;
+		cout << i + 1 << ". " << teacher.name << teacher.surname<<endl;
 		cout << "                " << teacher.email <<endl;
 		cout << "Teams:"<<endl;
 		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
-			cout << "  " << j <<". "<< teacher.teams[j];
+			cout << "  " << j + 1 <<". "<< teacher.teams[j];
 		}
+		cout << endl << endl;
 	}
 
 }
@@ -200,8 +199,9 @@ void showAllStudentElements(SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
-		cout << i << ". " << student.name << student.surname <<" class" << student.klas << endl;
+		cout << i + 1 << ". " << student.name << student.surname <<" class" << student.klas << endl;
 		cout << "                " << student.email << "Role: " << roleToString(student.role);
+		cout << endl << endl;
 	}
 }
 
@@ -230,7 +230,12 @@ bool roleEdit(SCHOOL_DATA& schoolData, int choiceIndex)
 		case 2: schoolData.students[choiceIndex].role = qaEngineer; return 1;
 		case 3: schoolData.students[choiceIndex].role = backEnd; return 1;
 		case 4: schoolData.students[choiceIndex].role = frontEnd; return 1;
-		default: return 0;
+		case 0: return 0;
+		default: 
+		{
+			"Incorrect input! Try entering a value between 1 and 4";
+			return 0;
+		}
 		}
 	}
 	catch (...)
@@ -246,29 +251,29 @@ bool addElement(SCHOOL_DATA& schoolData, int* choices)
 	{
 	case 1: 
 	{
-		schoolData.teachers.push_back({ "name", "surname", {"No teams yet."}, "email" }); 
+		schoolData.teachers.push_back({ "No name ", "No surname", {"No teams yet."}, "No email" }); 
 		return 1;
 	}
 	case 2: 
 	{
-		schoolData.students.push_back({ "name", "surname", 0, ROLE::noRole, "email" }); 
+		schoolData.students.push_back({ "No name", "No surname", 0, ROLE::noRole, "No email" }); 
 		return 1; 
 	}
 	case 3: 
 	{
-		schoolData.teams.push_back({ "name", "description", "set up date" }); 
+		schoolData.teams.push_back({ "No name", "No description", "No set up date" }); 
 		teamStatusSwitch(schoolData, schoolData.teams.size());
 		return 1;
 	}
 	default:
 	{
-		cout << "Invalid Input" << endl;
+		cout << "Invalid Input, please try entering a value between 0 and 3!" << endl;
 		return 0;
 	}
 	}
 }
 
-bool assignTeacherToTeam(SCHOOL_DATA& schoolData, int choiceTeam)
+bool assignTeacherToTeam(SCHOOL_DATA& schoolData, size_t choiceTeam)
 {
 	int choice;
 	showAllTeacherElements(schoolData);
@@ -297,8 +302,9 @@ bool editTeams(SCHOOL_DATA& schoolData)
 	}
 	try
 	{
-		cout << "Your choice: ";
+		cout << "Enter an index of your choice: ";
 		cin >> choiceTeam;
+		choiceTeam--;
 		if (choiceTeam > schoolData.teams.size()) {
 			cout << "Invalid team index" << endl;
 		}
@@ -349,36 +355,43 @@ bool editTeams(SCHOOL_DATA& schoolData)
 bool editStudents(SCHOOL_DATA& schoolData, int choice)
 {
 	showAllStudentElements(schoolData);
-	int choiceIndex; 
+	int choiceIndex;
 	cout << endl << "Which student do you want to edit?" << endl;
+	cout << "Enter an index of your choice: ";
 	try
 	{
 		cin >> choiceIndex;
+		choiceIndex--;
 		switch (choice)
 		{
 		case 1:
 		{
 			cout << "Type a new name: " << endl;
 			cin >> schoolData.students[choiceIndex].name;
+			return 1;
 		}
 		case 2:
 		{
 			cout << "Type a new surname: " << endl;
 			cin >> schoolData.students[choiceIndex].surname;
+			return 1;
 		}
 		case 3:
 		{
 			cout << "Type a new email: " << endl;
 			cin >> schoolData.students[choiceIndex].email;
+			return 1;
 		}
 		case 4:
 		{
 			cout << "Type a new class: " << endl;
 			cin >> schoolData.students[choiceIndex].klas;
+			return 1;
 		}
 		case 5:
 		{
 			roleEdit(schoolData, choiceIndex);
+			return 1;
 		}
 		default: return 0;
 		}
@@ -394,26 +407,31 @@ bool editTeachers(SCHOOL_DATA& schoolData, int choice)
 {
 	showAllTeacherElements(schoolData);
 	int choiceIndex;
-	cout << endl << "Which student do you want to edit?" << endl;
+	cout << endl << "Which teacher do you want to edit?" << endl;
+	cout << "Enter an index of your choice: ";
 	try
 	{
 		cin >> choiceIndex;
+		choiceIndex--;
 		switch (choice)
 		{
 		case 1:
 		{
 			cout << "Type a new name: " << endl;
 			cin >> schoolData.students[choiceIndex].name;
+			return 1;
 		}
 		case 2:
 		{
 			cout << "Type a new surname: " << endl;
 			cin >> schoolData.students[choiceIndex].surname;
+			return 1;
 		}
 		case 3:
 		{
 			cout << "Type a new email: " << endl;
 			cin >> schoolData.students[choiceIndex].email;
+			return 1;
 		}
 		default: return 0;
 		}
@@ -432,11 +450,15 @@ bool editElements(SCHOOL_DATA& schoolData, int* choices)
 	{
 		switch (choices[1])
 		{
-		case 1: choice = menus(2, choices);
-		case 2: choice = menus(2, choices);
-		case 3: choice = menus(3, choices);
+		case 1: choice = menus(2, choices); break;
+		case 2: choice = menus(2, choices); break;
+		case 3: choice = menus(3, choices);	break;
 		case 0: return 0;
-		default: return 0;
+		default: 
+		{
+			cout << "Oops, something went wrong! Try entering a value between 0 and 3";
+			return 0;
+		}
 		}
 
 		switch (choice)
@@ -445,7 +467,11 @@ bool editElements(SCHOOL_DATA& schoolData, int* choices)
 		case 2: if (editStudents(schoolData, choice)) { return 1; } break;
 		case 3: if (editTeams(schoolData)) { return 1; } break;
 		case 0: return 0;
-		default: return 0;
+		default:
+		{
+			cout << "Oops, something went wrong! Try entering a value between 0 and 3";
+			return 0;
+		}
 		}
 	}
 	catch (...)
@@ -660,6 +686,7 @@ void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 		{
 			file << j << ". " << team.students[j].name << endl;
 		}
+		file << endl << endl;
 		file << "---------------------------------------------------------------";
 	}
 }
@@ -680,6 +707,7 @@ void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
 		{
 			file << "  " << j << ". " << teacher.teams[j];
 		}
+		file << endl << endl;
 	}
 	file.close();
 }
@@ -696,6 +724,7 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 		student = schoolData.students[i];
 		file << i << ". " << student.name << student.surname << " class" << student.klas << endl;
 		file << "                " << student.email << "Role: " << roleToString(student.role);
+		file << endl << endl;
 	}
 	file.close();
 }
