@@ -492,7 +492,7 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 			if (!schoolData.teachers.empty())
 			{
 				vector<TEACHER_DATA>::iterator it = schoolData.teachers.begin();
-				advance(it, choice);
+				advance(it, choice - 1);
 				if (it <= schoolData.teachers.end())
 				{
 					schoolData.teachers.erase(it);
@@ -506,7 +506,7 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 			if (!schoolData.students.empty())
 			{
 				vector<STUDENT_DATA>::iterator it = schoolData.students.begin();
-				advance(it, choice);
+				advance(it, choice - 1);
 				if (it <= schoolData.students.end())
 				{
 					schoolData.students.erase(it);
@@ -520,7 +520,7 @@ bool deleteElement(SCHOOL_DATA& schoolData, int* choices)
 			if (!schoolData.teams.empty())
 			{
 				vector<TEAM_DATA>::iterator it = schoolData.teams.begin();
-				advance(it, choice);
+				advance(it, choice - 1);
 				if (it <= schoolData.teams.end())
 				{
 					schoolData.teams.erase(it);
@@ -648,7 +648,7 @@ void writeTeamsInFile(string fileName, SCHOOL_DATA& schoolData)
 		file << "Students in this team are:" << endl;
 		for (size_t j = 0; j < team.students.size(); j++)
 		{
-			file << j << ". " << team.students[j].name << endl;
+			file << j + 1 << ". " << team.students[j].name << endl;
 		}
 		file << endl << endl;
 		file << "---------------------------------------------------------------";
@@ -664,12 +664,12 @@ void writeTeachersInFile(string fileName, SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.teachers.size(); i++)
 	{
 		teacher = schoolData.teachers[i];
-		file << i << ". " << teacher.name << " " << teacher.surname << endl;
+		file << i + 1 << ". " << teacher.name << " " << teacher.surname << endl;
 		file << "    " << teacher.email << endl;
 		file << "Teams:" << endl;
 		for (size_t j = 0; j < teacher.teams.size(); j++)
 		{
-			file << "  " << j << ". " << teacher.teams[j];
+			file << "  " << j + 1 << ". " << teacher.teams[j];
 		}
 		file << endl << endl;
 	}
@@ -686,7 +686,7 @@ void writeStudentsInFile(string fileName, SCHOOL_DATA& schoolData)
 	for (size_t i = 0; i < schoolData.students.size(); i++)
 	{
 		student = schoolData.students[i];
-		file << i << ". " << student.name << " " << student.surname << " class " << student.klas << endl;
+		file << i + 1 << ". " << student.name << " " << student.surname << " class " << student.klas << endl;
 		file << "    " << student.email << "Role: " << roleToString(student.role);
 		file << endl << endl;
 	}
